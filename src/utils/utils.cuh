@@ -47,6 +47,18 @@ void printMatrixColumnMajor(T * matrix, int rows, int cols) {
     }
 }
 
+template <typename T>
+__device__
+__host__
+void printMatrixColumnMajor2(T * matrix, int rows, int cols, int gap) {
+    for(int i=0; i<rows; i++) {
+        for(int j=0; j<cols; j++) {
+            printf("%f ", matrix[j*rows + i + j*gap]);
+        }
+        printf("\n");
+    }
+}
+
 // prints col major order matrix to file in numpy format
 template <typename T> __device__ __host__ void printMatrixColMajorNumpy(T *matrix, int rows, int cols)
 {
@@ -199,7 +211,7 @@ void parse_csv_to_float_vec(std::vector<float> * parsed_csv, std::string path, i
     }
 }
 
-void parse_csv_to_double_vec(std::vector<double> * parsed_csv, std::string path, int rows, int cols) {
+void parse_csv_to_double_vec(std::vector<double> * parsed_csv, std::string path) {
     std::ifstream data(path);
     std::string line;
 
@@ -211,6 +223,25 @@ void parse_csv_to_double_vec(std::vector<double> * parsed_csv, std::string path,
         {
             (*parsed_csv).push_back(stod(cell));
         }
+    }
+}
+
+template <typename T>
+void parse_csv_to_vec(std::vector<std::vector<T>> * parsed_csv, std::string path) {
+    std::ifstream data(path);
+    std::string line;
+
+    while (std::getline(data, line)) {
+        std::stringstream lineStream(line);
+        std::string cell;
+        std::vector<T> row;  // Temporary vector for the current row
+        while (std::getline(lineStream, cell, ',')) {
+            std::istringstream cellStream(cell);
+            T value;
+            cellStream >> value;  // Convert cell to type T
+            row.push_back(value);
+        }
+        parsed_csv->push_back(row);  // Add the row to the 2D vector
     }
 }
 
