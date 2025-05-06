@@ -227,6 +227,7 @@ void parse_csv_to_double_vec(std::vector<double> * parsed_csv, std::string path)
 }
 
 template <typename T>
+__host__
 void parse_csv_to_vec(std::vector<std::vector<T>> * parsed_csv, std::string path) {
     std::ifstream data(path);
     std::string line;

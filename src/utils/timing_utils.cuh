@@ -60,7 +60,7 @@ void printAllTimingStats(const std::vector<double>& tTime,
     std::cout << "Length of nisTime: " << nisTime.size() << std::endl;
 	std::cout << "Length of alOuterLoopTime: " << alOuterLoopTime.size() << std::endl;
 	std::cout << "Length of costFSTime: " << costFSTime.size() << std::endl;
-	std::ofstream outfile("output.csv");
+	std::ofstream outfile("output_12ch_46TS_100Tests_v2.csv");
 	printTimingStats(tTime,"Total", outfile);
 	printTimingStats(initTime,"Initialization", outfile);
 	printTimingStats(fsimTime,"Forward Simulation", outfile);
