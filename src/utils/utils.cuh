@@ -1,9 +1,30 @@
+#ifndef SGRUTILS_UTILS_CUH
+#define SGRUTILS_UTILS_CUH
+
 /*
     Cuda utility functions
 */
 #include <cuda_runtime.h>
 #include <stdio.h>
+#include <fstream>
+#include <sstream>
+#include <vector>
+#include <string>
+#include <algorithm>
 // #include <iiwa-grid.cuh>
+
+// Move these outside of any namespace
+#define gpuErrchk(ans) { gpuAssert((ans), __FILE__, __LINE__); }
+inline void gpuAssert(cudaError_t code, const char *file, int line, bool abort=true)
+{
+   if (code != cudaSuccess) 
+   {
+      fprintf(stderr,"GPUassert: %s %s %d\n", cudaGetErrorString(code), file, line);
+      if (abort) exit(code);
+   }
+}
+
+namespace sgrutils {
 
 template <typename T>
 __device__ T* shared_memory_proxy()
@@ -23,16 +44,6 @@ __device__ void sleepKernel()
     }
     
     printf("Thread %d woke up after sleeping for 1 second.\n", threadIdx.x);
-}
-
-#define gpuErrchk(ans) { sgrutils::gpuAssert((ans), __FILE__, __LINE__); }
-inline void gpuAssert(cudaError_t code, const char *file, int line, bool abort=true)
-{
-   if (code != cudaSuccess) 
-   {
-      fprintf(stderr,"GPUassert: %s %s %d\n", cudaGetErrorString(code), file, line);
-      if (abort) exit(code);
-   }
 }
 
 template <typename T>
@@ -253,3 +264,7 @@ void diagonalize_vector(u_int32_t N, T * arr, T * out) {
         out[i] = (i/N == i%N) ? arr[i/N] : 0;
     } 
 }
+
+} // namespace sgrutils
+
+#endif // SGRUTILS_UTILS_CUH

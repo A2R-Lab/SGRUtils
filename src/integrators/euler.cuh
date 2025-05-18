@@ -1,4 +1,9 @@
+#ifndef SGRUTILS_EULER_CUH
+#define SGRUTILS_EULER_CUH
+
 #include <stdio.h>
+
+namespace sgrutils {
 
 __host__
 __device__
@@ -103,3 +108,7 @@ void _integratorGradient(T * ABk, T *s_dqdd, T dt, int dim_AB_r, int dim_AB_c, i
         }
     }
 }
+
+} // namespace sgrutils
+
+#endif // SGRUTILS_EULER_CUH

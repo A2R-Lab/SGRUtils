@@ -1,3 +1,6 @@
+#ifndef SGRUTILS_TIMING_UTILS_CUH
+#define SGRUTILS_TIMING_UTILS_CUH
+
 /*
     Utility functions related to timing.
 */
@@ -7,6 +10,9 @@
 #include <string>
 #include <iostream>
 #include <fstream>
+#include <cmath>
+
+namespace sgrutils {
 
 void computeStats(double *_median, double *_avg, double *_stdev, double *_min, double *_max, int size, std::vector<double> v){
 	// sort gives us the median, max and min
@@ -78,3 +84,7 @@ void printAllTimingStats(const std::vector<double>& tTime,
 		printf("WARN: Next iteration setup timing array empty \n");
 	}
 }
+
+} // namespace sgrutils
+
+#endif // SGRUTILS_TIMING_UTILS_CUH
