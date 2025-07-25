@@ -265,6 +265,49 @@ void diagonalize_vector(u_int32_t N, T * arr, T * out) {
     } 
 }
 
+// Function to write trajectory data to CSV file
+template <typename T>
+__host__
+void write_trajectory_to_csv(const std::vector<T>& trajectory, const std::string& filename, 
+                           size_t num_timesteps, size_t data_size, bool include_trailing_comma = true) {
+    std::ofstream out(filename);
+    if (!out.is_open()) {
+        fprintf(stderr, "Error: Could not open file %s for writing\n", filename.c_str());
+        return;
+    }
+    
+    for (size_t t = 0; t < num_timesteps; t++) {
+        for (size_t i = 0; i < data_size; i++) {
+            out << trajectory[t * data_size + i];
+            if (include_trailing_comma || i < data_size - 1) {
+                out << ",";
+            }
+        }
+        out << "\n";
+    }
+    out.close();
+}
+
+// Function to write multiple trajectories to CSV files
+template <typename T>
+__host__
+void write_trajectories_to_csv(const std::vector<T>& x_trajectory, const std::vector<T>& u_trajectory, 
+                              const std::vector<T>& ee_trajectory, size_t num_timesteps, 
+                              size_t state_size, size_t control_size, size_t ee_pose_size,
+                              const std::string& file_identifier,
+                              const std::string& output_dir = "z_output_csv/") {
+    // Write state trajectory
+    write_trajectory_to_csv(x_trajectory, output_dir + "x_trajectory_" + file_identifier + ".csv", num_timesteps, state_size);
+
+    // Write control trajectory (one less timestep)
+    write_trajectory_to_csv(u_trajectory, output_dir + "u_trajectory_" + file_identifier + ".csv", num_timesteps - 1, control_size);
+
+    // Write end-effector trajectory
+    write_trajectory_to_csv(ee_trajectory, output_dir + "ee_trajectory_" + file_identifier + ".csv", num_timesteps, ee_pose_size);
+
+    printf("Trajectories saved to CSV files in %s\n", output_dir.c_str());
+}
+
 } // namespace sgrutils
 
 #endif // SGRUTILS_UTILS_CUH

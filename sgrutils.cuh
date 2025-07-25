@@ -4,7 +4,7 @@
 // Include all headers outside of namespace
 #include "./src/integrators/euler.cuh"
 #include "./src/utils/compiler_utils.cuh"
-#include "./src/utils/timing_utils.cuh"
+#include "./src/utils/timing_utils_v2.cuh"
 #include "./src/utils/utils.cuh"
 
 // namespace sgrutils definitions can go here if needed
