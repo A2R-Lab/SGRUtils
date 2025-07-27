@@ -234,7 +234,11 @@ void printAllMetricsStats(const std::vector<T>& total_cost,
 	printTimingStats(state_error_d,"State Error", outfile, test_iter);
 	printTimingStats(line_search_index_d,"Line Search Index", outfile, test_iter);
 	printTimingStats(rho_values_d,"Rho Values", outfile, test_iter);
-	outfile.close();
+	
+	// Check if file is still good before closing
+    if (outfile.is_open()) {
+        outfile.close();
+    }
 
 	// Metric Data - Save in columnar format using new function
 	std::ofstream outfile2("z_output_csv/metrics_data_" + filename + ".csv");
