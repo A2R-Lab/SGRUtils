@@ -133,6 +133,7 @@ void printAllTimingStats(const std::vector<double>& tTime,
 						 const std::vector<double>& alOuterLoopTime,
 						 const std::vector<double>& costFSTime,
 						 const std::string& filename = "nch_nTS_nit_vn",
+						 const std::string& output_dir = "results/",
 						 int test_iter = 0) {
     
 	// Print timing information
@@ -151,7 +152,7 @@ void printAllTimingStats(const std::vector<double>& tTime,
 	}
 
 	// Timing Statistics
-	std::ofstream outfile("z_output_csv/timing_stats_" + filename + ".csv");
+	std::ofstream outfile(output_dir + "timing_stats_" + filename + ".csv");
 	printTimingStats(tTime,"Total", outfile, test_iter);
 	printTimingStats(initTime,"Initialization", outfile, test_iter);
 	printTimingStats(fsimTime,"Forward Simulation", outfile, test_iter);
@@ -171,7 +172,7 @@ void printAllTimingStats(const std::vector<double>& tTime,
 	outfile.close();
 
 	// Timing Data - Save in columnar format using new function
-	std::ofstream outfile2("z_output_csv/timing_data_" + filename + ".csv");
+	std::ofstream outfile2(output_dir + "timing_data_" + filename + ".csv");
 	// Use the new columnar function
 	ColumnarCSVWriter csvWriter;
 	csvWriter.addColumn(tTime, "Total");           // Add column 1
@@ -198,6 +199,7 @@ void printAllMetricsStats(const std::vector<T>& total_cost,
 						 const std::vector<T>& line_search_index,
 						 const std::vector<T>& rho_values,
 						 const std::string& filename = "nch_nTS_nit_vn0",
+						 const std::string& output_dir = "results/",
 						 int test_iter = 0) {
 	// Convert input vectors to double vectors for compatibility if needed
 	std::vector<double> total_cost_d, norm_defects_d, state_error_d, line_search_index_d, rho_values_d;
@@ -224,7 +226,7 @@ void printAllMetricsStats(const std::vector<T>& total_cost,
 	}
 
 	// Metric Statistics
-	std::ofstream outfile("z_output_csv/metrics_stats_" + filename + ".csv");
+	std::ofstream outfile(output_dir + "metrics_stats_" + filename + ".csv");
 	if (test_iter == TEST_ITERS - 1) {
 		printf("\n=========================================================================\n");
 		printf("Printing metric information: \n");
@@ -241,7 +243,7 @@ void printAllMetricsStats(const std::vector<T>& total_cost,
     }
 
 	// Metric Data - Save in columnar format using new function
-	std::ofstream outfile2("z_output_csv/metrics_data_" + filename + ".csv");
+	std::ofstream outfile2(output_dir + "metrics_data_" + filename + ".csv");
 	// Use the new columnar function
 	ColumnarCSVWriter csvWriter2;
 	csvWriter2.addColumn(total_cost_d, "Total_Cost");           // Add column 1

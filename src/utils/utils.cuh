@@ -295,7 +295,7 @@ void write_trajectories_to_csv(const std::vector<T>& x_trajectory, const std::ve
                               const std::vector<T>& ee_trajectory, size_t num_timesteps, 
                               size_t state_size, size_t control_size, size_t ee_pose_size,
                               const std::string& file_identifier,
-                              const std::string& output_dir = "z_output_csv/") {
+                              const std::string& output_dir = "results/") {
     // Write state trajectory
     write_trajectory_to_csv(x_trajectory, output_dir + "x_trajectory_" + file_identifier + ".csv", num_timesteps, state_size);
 
